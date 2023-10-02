@@ -1,34 +1,38 @@
-import TasksRepository from '../repositories/TasksRepository.js';
+import TasksRepository from "../repositories/TasksRepository.js";
 
 class TasksController {
-    getAll = async (_req, resp) => {
-        const tasks = await TasksRepository.findAll();
-        return resp.status(200).json(tasks);
-    };
+  getAll = async (_req, resp) => {
+    const tasks = await TasksRepository.findAll();
+    return resp.status(200).json(tasks);
+  };
 
-    getById = async (req, resp) => {
-        const {id} = req.params;
-        const tasks = await TasksRepository.findById(id);
-        return resp.status(200).json(tasks);
-    }
+  getById = async (req, resp) => {
+    const { id } = req.params;
+    const tasks = await TasksRepository.findById(id);
+    return resp.status(200).json(tasks);
+  };
 
-     createTask = async (req, resp) => {
-        const createdTask = await TasksRepository.create(req.body);
-        return resp.status(201).json(createdTask);
+  createTask = async (req, resp) => {
+    const task = {
+      title: req.body.title,
+      status: "Pendente",
+      userId: req.userId,
     };
-    
-    updateTask = async (req, resp) => {
-       const {id} = req.params;
-       await TasksRepository.update(id, req.body);
-       return resp.status(204).json();
-    };
+    const createdTask = await TasksRepository.create(task);
+    return resp.status(201).json(createdTask);
+  };
 
-     deleteTask = async (req, resp) => {
-        const {id} = req.params;
-        await TasksRepository.delete(id);
-        return resp.status(204).json();
-    };
-};
+  updateTask = async (req, resp) => {
+    const { id } = req.params;
+    await TasksRepository.update(id, req.body);
+    return resp.status(204).json();
+  };
 
+  deleteTask = async (req, resp) => {
+    const { id } = req.params;
+    await TasksRepository.delete(id);
+    return resp.status(204).json();
+  };
+}
 
 export default new TasksController();
