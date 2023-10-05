@@ -1,3 +1,5 @@
+import { StatusEnum } from "../enums/statusEnum.js";
+
 const validateFieldTitle = (req, resp, next) => {
   const { body } = req;
   if (body.title == undefined) {
@@ -19,6 +21,10 @@ const validateFieldStatus = (req, resp, next) => {
 
   if (body.status == "") {
     return resp.status(400).json({ message: "status cannot be empty" });
+  }
+
+  if (!Object.values(StatusEnum).includes(body.status)) {
+    return resp.status(400).json({ message: "Incorrect status value" });
   }
 
   next();

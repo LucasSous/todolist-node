@@ -1,22 +1,24 @@
 import express from "express";
-import UsersController from "../controllers/UsersController.js";
 import usersMiddleware from "../middlewares/usersMiddleware.js";
+import getAllUsersController from "../controllers/users/getAllUsersController.js";
+import loginController from "../controllers/users/loginController.js";
+import createUserController from "../controllers/users/createUserController.js";
 
 const usersRouter = express.Router();
 
-usersRouter.get("/users", UsersController.getAll);
-usersRouter.get(
+usersRouter.get("/users", getAllUsersController);
+usersRouter.post(
   "/login",
   usersMiddleware.validateFieldEmail,
   usersMiddleware.validateFieldPassword,
-  UsersController.userLogin
+  loginController
 );
 usersRouter.post(
   "/user",
   usersMiddleware.validateFieldName,
   usersMiddleware.validateFieldEmail,
   usersMiddleware.validateFieldPassword,
-  UsersController.createUser
+  createUserController
 );
 
 export default usersRouter;
